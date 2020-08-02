@@ -20,25 +20,30 @@ public class SpellCheckDecorator extends AbstractTextDecorator {
 			System.out.println("inputString is null");
 			System.exit(0);
 		}
-		String updatedInputString = id.getInputString();
+		String updatedInputString = "";
 
-		/*
-		 * String[] array = id.getInputString().split(" "); Boolean flag = false;
-		 * for(int i = 0; i < array.length; i++) { if(array[i].contains(".")) { array[i]
-		 * = array[i].replace(".", ""); flag = true; }
-		 * if(id.getMisspledString().contains(array[i])) { updatedInputString += PREFIX
-		 * + array[i] + SUFFIX;
-		 * 
-		 * }else { updatedInputString += array[i] + " "; } if(flag) { updatedInputString
-		 * += ". "; flag=false; } else { updatedInputString += " "; } }
-		 */
+		String[] array = id.getInputString().split(" ");
+		Boolean flag = false;
+		for (int i = 0; i < array.length; i++) {
+			if (array[i].contains(".")) {
+				array[i] = array[i].replace(".", "");
+				flag = true;
+			}
+			if (id.getMisspledString().contains(array[i].toLowerCase()))
+				updatedInputString += PREFIX + array[i] + SUFFIX;
 
-		for (int i = 0; i < id.getMisspledString().size(); i++) {
-			updatedInputString = updatedInputString.replaceAll(id.getMisspledString().get(i),
-					(PREFIX + id.getMisspledString().get(i) + SUFFIX));
+			else
+				updatedInputString += array[i];
+
+			if (flag) {
+				updatedInputString += ". ";
+				flag = false;
+			} else
+				updatedInputString += " ";
 
 		}
-		System.out.println(updatedInputString);
+		
+		//System.out.println(updatedInputString);
 		if (null != atd) {
 			atd.processInputDetails();
 		}
