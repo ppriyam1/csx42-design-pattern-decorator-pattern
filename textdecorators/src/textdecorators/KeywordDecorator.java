@@ -20,8 +20,9 @@ public class KeywordDecorator extends AbstractTextDecorator {
 			System.out.println("inputString is null");
 			System.exit(0);
 		}
+		
 		String updatedInputString = "";
-		String[] array = id.getInputString().split(" ");
+		String[] array =id.getUpdatedInputString().split(" ");
 		Boolean flag = false;
 		for (int i = 0; i < array.length; i++) {
 			if (array[i].contains(".")) {
@@ -41,8 +42,9 @@ public class KeywordDecorator extends AbstractTextDecorator {
 				updatedInputString += " ";
 
 		}
+		id.update(updatedInputString);
 		
-		System.out.println(updatedInputString);
+		//System.out.println(updatedInputString);
 		if (null != atd) {
 			atd.processInputDetails();
 		}

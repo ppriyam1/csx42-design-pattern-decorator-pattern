@@ -31,15 +31,15 @@ public class Driver {
 		final String outputFilename = "./" + args[3];
 
 		InputDetails inputD = new InputDetails(inputFilename, misspelledFilename, keywordsFilename, outputFilename);
-		inputD.processInputDetails();
+		//inputD.processInputDetails();
 		AbstractTextDecorator sentenceDecorator = new SentenceDecorator(null, inputD);
 		//sentenceDecorator.processInputDetails();
 		AbstractTextDecorator spellCheckDecorator = new SpellCheckDecorator(sentenceDecorator, inputD);
 		//spellCheckDecorator.processInputDetails();
 		AbstractTextDecorator keywordDecorator = new KeywordDecorator(spellCheckDecorator, inputD);
-		keywordDecorator.processInputDetails();
+		//keywordDecorator.processInputDetails();
 		AbstractTextDecorator mostFreqWordDecorator = new MostFrequentWordDecorator(keywordDecorator, inputD);
-		//mostFreqWordDecorator.processInputDetails();
+		mostFreqWordDecorator.processInputDetails();
 
 		// ((FileDisplayInterface) inputD).writeToFile();
 

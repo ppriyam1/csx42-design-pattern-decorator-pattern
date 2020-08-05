@@ -26,7 +26,10 @@ public class MostFrequentWordDecorator extends AbstractTextDecorator {
 		String mostFrequentWord = "";
 		String updatedInputString = "";
 		int mostFrequentWordCount = 0;
-		String inputString[] = id.getInputString().split(" ");
+		
+		String inputString[] = id.getUpdatedInputString().split(" ");
+		
+		
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		
 		for(int i = 0; i < inputString.length; i++) {
@@ -57,10 +60,10 @@ public class MostFrequentWordDecorator extends AbstractTextDecorator {
 
 		}	
 		//System.out.println(updatedInputString);
+		id.update(updatedInputString);
 		
 		if (null != atd) {
 			atd.processInputDetails();
 		}
-
 	}
 }

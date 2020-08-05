@@ -15,7 +15,9 @@ public class InputDetails {
 	private static final String ALPHANUMERIC_PATTERN = "[a-zA-Z0-9\\.,\\s]{0,}";
 
 	private FileProcessor fileProcessor = null;
-	private String inputString = "";
+	protected String inputString = "";
+	private String updatedInputString = "";
+
 	private List<String> misspledString;
 	private List<String> keywordsString;
 
@@ -60,6 +62,10 @@ public class InputDetails {
 		}
 
 	}
+	
+	public String update() {
+		return inputString;
+	}
 
 	public void isinstructionValid(String instruction) {
 
@@ -94,14 +100,6 @@ public class InputDetails {
 		this.fileProcessor = fileProcessor;
 	}
 
-	public String getInputString() {
-		return inputString;
-	}
-
-	public void setInputString(String arrayOfInputString) {
-		this.inputString = arrayOfInputString;
-	}
-
 	public List<String> getMisspledString() {
 		return misspledString;
 	}
@@ -116,5 +114,17 @@ public class InputDetails {
 
 	public void setKeywordsString(List<String> keywordsString) {
 		this.keywordsString = keywordsString;
+	}
+	public void update(String updatedInputStringIn) {
+		updatedInputString = updatedInputStringIn;
+	}
+	public String getUpdatedInputString() {
+		if(updatedInputString == "") {
+			if(inputString == "") {
+				processInputDetails();
+			}
+			return inputString;
+		}
+		return updatedInputString;
 	}
 }
