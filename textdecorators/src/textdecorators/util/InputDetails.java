@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import textdecorators.util.MyLogger.DebugLevel;
+
 public class InputDetails {
 
 	private String inputFileName;
@@ -20,6 +22,8 @@ public class InputDetails {
 
 	private List<String> misspledString;
 	private List<String> keywordsString;
+
+	MyLogger LOGGER = MyLogger.getMyLoggerInstance();
 
 	public InputDetails(String inputFileNameIn, String misspelledFilenameIn, String keywordsFilenameIn,
 			String outputFileNameIn) {
@@ -39,7 +43,6 @@ public class InputDetails {
 			isinstructionValid(inputInstruction);
 			this.inputString = inputInstruction;
 
-			// System.out.println(inputString);
 			fileProcessor = new FileProcessor(misspelledFilename);
 
 			String misspledInstruction = fileProcessor.poll();
@@ -62,7 +65,7 @@ public class InputDetails {
 		}
 
 	}
-	
+
 	public String update() {
 		return inputString;
 	}
@@ -71,7 +74,7 @@ public class InputDetails {
 
 		if (Pattern.matches(ALPHANUMERIC_PATTERN, instruction) == false) {
 			// TODO throw exception
-			System.out.println("Input Stirng is invalid");
+			LOGGER.writeMessage("Input Stirng is invalid", DebugLevel.INPUT_DETAILS);
 		}
 
 	}
@@ -107,7 +110,7 @@ public class InputDetails {
 	public void setMisspledString(List<String> misspledString) {
 		this.misspledString = misspledString;
 	}
-	
+
 	public List<String> getKeywordsString() {
 		return keywordsString;
 	}
@@ -115,16 +118,26 @@ public class InputDetails {
 	public void setKeywordsString(List<String> keywordsString) {
 		this.keywordsString = keywordsString;
 	}
+
 	public void update(String updatedInputStringIn) {
 		updatedInputString = updatedInputStringIn;
 	}
+
 	public String getUpdatedInputString() {
-		if(updatedInputString == "") {
-			if(inputString == "") {
+		if (updatedInputString == "") {
+			if (inputString == "") {
 				processInputDetails();
 			}
 			return inputString;
 		}
 		return updatedInputString;
+	}
+
+	@Override
+	public String toString() {
+		return "InputDetails [inputFileName=" + inputFileName + ", outputFileName=" + outputFileName
+				+ ", misspelledFilename=" + misspelledFilename + ", keywordsFilename=" + keywordsFilename
+				+ ", inputString=" + inputString + ", updatedInputString=" + updatedInputString + ", misspledString="
+				+ misspledString + ", keywordsString=" + keywordsString + "]";
 	}
 }

@@ -1,6 +1,8 @@
 package textdecorators;
 
 import textdecorators.util.InputDetails;
+import textdecorators.util.MyLogger;
+import textdecorators.util.MyLogger.DebugLevel;
 
 public class SpellCheckDecorator extends AbstractTextDecorator {
 
@@ -8,6 +10,8 @@ public class SpellCheckDecorator extends AbstractTextDecorator {
 	private InputDetails id;
 	private final String PREFIX = "SPELLCHECK_";
 	private final String SUFFIX = "_SPELLCHECK";
+	
+	MyLogger LOGGER = MyLogger.getMyLoggerInstance();
 
 	public SpellCheckDecorator(AbstractTextDecorator atdIn, InputDetails idIn) {
 		this.atd = atdIn;
@@ -17,7 +21,7 @@ public class SpellCheckDecorator extends AbstractTextDecorator {
 	@Override
 	public void processInputDetails() {
 		if (id == null) {
-			System.out.println("inputString is null");
+			LOGGER.writeMessage(PREFIX+"inputString is null"+SUFFIX, DebugLevel.SPELL_CHECK_DECORATOR);
 			System.exit(0);
 		}
 		
@@ -45,10 +49,15 @@ public class SpellCheckDecorator extends AbstractTextDecorator {
 		}
 		id.update(updatedInputString);
 		
-		//System.out.println(updatedInputString);
+		LOGGER.writeMessage(PREFIX+ updatedInputString +SUFFIX, DebugLevel.SPELL_CHECK_DECORATOR);
 		if (null != atd) {
 			atd.processInputDetails();
 		}
 
+	}
+
+	@Override
+	public String toString() {
+		return "SpellCheckDecorator [atd=" + atd + ", id=" + id + "]";
 	}
 }

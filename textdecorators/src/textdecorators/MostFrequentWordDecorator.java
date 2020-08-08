@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import textdecorators.util.InputDetails;
+import textdecorators.util.MyLogger;
+import textdecorators.util.MyLogger.DebugLevel;
 
 public class MostFrequentWordDecorator extends AbstractTextDecorator {
 
@@ -11,6 +13,8 @@ public class MostFrequentWordDecorator extends AbstractTextDecorator {
 	private InputDetails id;
 	private final String PREFIX = "MOST_FREQUENT_";
 	private final String SUFFIX = "_MOST_FREQUENT";
+	
+	MyLogger LOGGER = MyLogger.getMyLoggerInstance();
 
 	public MostFrequentWordDecorator(AbstractTextDecorator atdIn, InputDetails idIn) {
 		this.atd = atdIn;
@@ -20,7 +24,7 @@ public class MostFrequentWordDecorator extends AbstractTextDecorator {
 	@Override
 	public void processInputDetails() {
 		if (id == null) {
-			System.out.println("inputString is null");
+			LOGGER.writeMessage(PREFIX+"inputString is null"+SUFFIX, DebugLevel.MOST_FREQUENT_WORDS_DECORATOR);
 			System.exit(0);
 		}
 		String mostFrequentWord = "";
@@ -59,11 +63,17 @@ public class MostFrequentWordDecorator extends AbstractTextDecorator {
 				updatedInputString += " ";
 
 		}	
-		//System.out.println(updatedInputString);
+		LOGGER.writeMessage(PREFIX+ updatedInputString +SUFFIX, DebugLevel.MOST_FREQUENT_WORDS_DECORATOR);
+		
 		id.update(updatedInputString);
 		
 		if (null != atd) {
 			atd.processInputDetails();
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "MostFrequentWordDecorator [atd=" + atd + ", id=" + id + "]";
 	}
 }

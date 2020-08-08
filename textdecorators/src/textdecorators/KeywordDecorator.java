@@ -1,6 +1,8 @@
 package textdecorators;
 
 import textdecorators.util.InputDetails;
+import textdecorators.util.MyLogger;
+import textdecorators.util.MyLogger.DebugLevel;
 
 public class KeywordDecorator extends AbstractTextDecorator {
 
@@ -8,6 +10,8 @@ public class KeywordDecorator extends AbstractTextDecorator {
 	private InputDetails id;
 	private final String PREFIX = "KEYWORD_";
 	private final String SUFFIX = "_KEYWORD";
+	
+	MyLogger LOGGER = MyLogger.getMyLoggerInstance();
 
 	public KeywordDecorator(AbstractTextDecorator atdIn, InputDetails idIn) {
 		this.atd = atdIn;
@@ -17,7 +21,7 @@ public class KeywordDecorator extends AbstractTextDecorator {
 	@Override
 	public void processInputDetails() {
 		if (id == null) {
-			System.out.println("inputString is null");
+			LOGGER.writeMessage(PREFIX+"inputString is null"+SUFFIX, DebugLevel.KEYWORD_DECORATOR);
 			System.exit(0);
 		}
 		
@@ -44,9 +48,15 @@ public class KeywordDecorator extends AbstractTextDecorator {
 		}
 		id.update(updatedInputString);
 		
-		//System.out.println(updatedInputString);
+		LOGGER.writeMessage(PREFIX+ updatedInputString +SUFFIX, DebugLevel.KEYWORD_DECORATOR);
+		
 		if (null != atd) {
 			atd.processInputDetails();
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "KeywordDecorator [atd=" + atd + ", id=" + id + "]";
 	}
 }
