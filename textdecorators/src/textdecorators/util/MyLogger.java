@@ -14,7 +14,7 @@ public class MyLogger {
 
 	private static volatile MyLogger myLoggerInstance;
 	private static DebugLevel debugLevel;
-	
+
 	File file = new File("./log.txt");
 
 	private MyLogger() {

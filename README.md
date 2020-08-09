@@ -19,7 +19,7 @@ Instruction to compile:
 Description: Compiles code and generates .class files inside the BUILD folder.
 
 Instruction to run:
-####Command: ant -buildfile textdecorators/src/build.xml run -Dinput1="input.txt" -Dmisspelled="misspelled.txt" -Dkeywords="keywords.txt" -Doutput="output.txt" -Ddebug="2"
+####Command: ant -buildfile textdecorators/src/build.xml run -Dinput="input.txt" -Dmisspelled="misspelled.txt" -Dkeywords="keywords.txt" -Doutput="output.txt" -Ddebug="0"
 
 Note: Arguments accept the absolute path of the files.
 
