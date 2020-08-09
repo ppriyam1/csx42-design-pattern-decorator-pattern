@@ -1,0 +1,5 @@
+package textdecorators.exception;
+
+public enum ErrorCode {
+	INVALID_INPUT_ARGUMENT, EMPTY_FILR_ERROR, INVALID_INPUT_FORMAT, INVALID_INPUT, INVALID_INPUT_EMPTY
+}

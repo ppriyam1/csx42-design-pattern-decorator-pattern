@@ -1,16 +1,22 @@
 package textdecorators;
 
+import textdecorators.exception.ErrorCode;
+import textdecorators.exception.InputDetailsException;
 import textdecorators.util.InputDetails;
 import textdecorators.util.MyLogger;
 import textdecorators.util.MyLogger.DebugLevel;
 
+/**
+ * @author preetipriyam
+ *
+ */
 public class SpellCheckDecorator extends AbstractTextDecorator {
 
 	private AbstractTextDecorator atd;
 	private InputDetails id;
 	private final String PREFIX = "SPELLCHECK_";
 	private final String SUFFIX = "_SPELLCHECK";
-	
+
 	MyLogger LOGGER = MyLogger.getMyLoggerInstance();
 
 	public SpellCheckDecorator(AbstractTextDecorator atdIn, InputDetails idIn) {
@@ -19,12 +25,13 @@ public class SpellCheckDecorator extends AbstractTextDecorator {
 	}
 
 	@Override
-	public void processInputDetails() {
+	public void processInputDetails() throws InputDetailsException {
 		if (id == null) {
-			LOGGER.writeMessage(PREFIX+"inputString is null"+SUFFIX, DebugLevel.SPELL_CHECK_DECORATOR);
+			String message = ErrorCode.INVALID_INPUT_EMPTY + ": " + PREFIX + "inputString is null" + SUFFIX;
+			LOGGER.writeMessage(message, DebugLevel.EXCEPTION);
 			System.exit(0);
 		}
-		
+
 		String updatedInputString = "";
 
 		String[] array = id.getUpdatedInputString().split(" ");
@@ -48,8 +55,8 @@ public class SpellCheckDecorator extends AbstractTextDecorator {
 
 		}
 		id.update(updatedInputString);
-		
-		LOGGER.writeMessage(PREFIX+ updatedInputString +SUFFIX, DebugLevel.SPELL_CHECK_DECORATOR);
+
+		LOGGER.writeMessage(PREFIX + updatedInputString + SUFFIX, DebugLevel.SPELL_CHECK_DECORATOR);
 		if (null != atd) {
 			atd.processInputDetails();
 		}

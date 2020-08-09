@@ -3,10 +3,16 @@ package textdecorators;
 import java.util.HashMap;
 import java.util.Map;
 
+import textdecorators.exception.ErrorCode;
+import textdecorators.exception.InputDetailsException;
 import textdecorators.util.InputDetails;
 import textdecorators.util.MyLogger;
 import textdecorators.util.MyLogger.DebugLevel;
 
+/**
+ * @author preetipriyam
+ *
+ */
 public class MostFrequentWordDecorator extends AbstractTextDecorator {
 
 	private AbstractTextDecorator atd;
@@ -22,9 +28,10 @@ public class MostFrequentWordDecorator extends AbstractTextDecorator {
 	}
 
 	@Override
-	public void processInputDetails() {
+	public void processInputDetails() throws InputDetailsException {
 		if (id == null) {
-			LOGGER.writeMessage(PREFIX+"inputString is null"+SUFFIX, DebugLevel.MOST_FREQUENT_WORDS_DECORATOR);
+			String message = ErrorCode.INVALID_INPUT_EMPTY + ": " + PREFIX+"inputString is null"+SUFFIX;
+			LOGGER.writeMessage(message, DebugLevel.EXCEPTION);
 			System.exit(0);
 		}
 		String mostFrequentWord = "";

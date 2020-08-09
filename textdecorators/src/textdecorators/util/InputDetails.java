@@ -1,14 +1,22 @@
 package textdecorators.util;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import textdecorators.exception.ErrorCode;
+import textdecorators.exception.InputDetailsException;
 import textdecorators.util.MyLogger.DebugLevel;
 
-public class InputDetails {
+/**
+ * @author preetipriyam
+ *
+ */
+public class InputDetails implements FileDisplayInterface, StdoutDisplayInterface {
 
 	private String inputFileName;
 	private String outputFileName;
@@ -33,19 +41,37 @@ public class InputDetails {
 		this.keywordsFilename = keywordsFilenameIn;
 	}
 
-	public void processInputDetails() {
+	/**
+	 * Method to process the input files.
+	 * 
+	 * @throws InputDetailsException
+	 */
+	public void processInputDetails() throws InputDetailsException {
 		try {
 
 			fileProcessor = new FileProcessor(inputFileName);
 
 			String inputInstruction = fileProcessor.poll();
-			// Method to validate the input string
+
+			if (inputInstruction == null || inputInstruction.isEmpty()) {
+				LOGGER.writeMessage(ErrorCode.EMPTY_FILR_ERROR + ": " + "Input file is empty", DebugLevel.EXCEPTION);
+				System.exit(0);
+			}
+
 			isinstructionValid(inputInstruction);
+
 			this.inputString = inputInstruction;
 
 			fileProcessor = new FileProcessor(misspelledFilename);
 
 			String misspledInstruction = fileProcessor.poll();
+
+			if (misspledInstruction == null || misspledInstruction.isEmpty()) {
+				LOGGER.writeMessage(ErrorCode.EMPTY_FILR_ERROR + ": " + "Misspelled words file is empty",
+						DebugLevel.EXCEPTION);
+				System.exit(0);
+			}
+
 			this.misspledString = new ArrayList<String>();
 			while (misspledInstruction != null) {
 				this.misspledString.add(misspledInstruction.toLowerCase());
@@ -53,13 +79,19 @@ public class InputDetails {
 			}
 
 			fileProcessor = new FileProcessor(keywordsFilename);
+
 			String keywordsInstruction = fileProcessor.poll();
+
+			if (keywordsInstruction == null || keywordsInstruction.isEmpty()) {
+				LOGGER.writeMessage(ErrorCode.EMPTY_FILR_ERROR + ": " + "Keywords file is empty", DebugLevel.EXCEPTION);
+				System.exit(0);
+			}
+
 			this.keywordsString = new ArrayList<String>();
 			while (keywordsInstruction != null) {
 				this.keywordsString.add(keywordsInstruction);
 				keywordsInstruction = fileProcessor.poll();
 			}
-
 		} catch (InvalidPathException | SecurityException | IOException e) {
 			e.printStackTrace();
 		}
@@ -70,13 +102,47 @@ public class InputDetails {
 		return inputString;
 	}
 
-	public void isinstructionValid(String instruction) {
+	/**
+	 * Method to validate the input instruction.
+	 * 
+	 * @param instruction
+	 * @throws InputDetailsException
+	 */
+	public void isinstructionValid(String instruction) throws InputDetailsException {
 
 		if (Pattern.matches(ALPHANUMERIC_PATTERN, instruction) == false) {
-			// TODO throw exception
-			LOGGER.writeMessage("Input Stirng is invalid", DebugLevel.INPUT_DETAILS);
+			String message = ErrorCode.INVALID_INPUT_FORMAT + ": " + "Input String is invalid";
+			LOGGER.writeMessage(message, DebugLevel.EXCEPTION);
+			System.exit(0);
+		}
+	}
+
+	public String getUpdatedInputString() throws InputDetailsException {
+		if (updatedInputString == "") {
+			if (inputString == "") {
+				processInputDetails();
+			}
+			return inputString;
+		}
+		return updatedInputString;
+	}
+
+	@Override
+	public void writeToFile() throws InputDetailsException {
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outputFileName));
+			writer.write(updatedInputString);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new InputDetailsException(e.getMessage());
 		}
 
+	}
+
+	@Override
+	public void printToStdout() {
+		System.out.println(updatedInputString);
 	}
 
 	public String getInputFileName() {
@@ -123,16 +189,6 @@ public class InputDetails {
 		updatedInputString = updatedInputStringIn;
 	}
 
-	public String getUpdatedInputString() {
-		if (updatedInputString == "") {
-			if (inputString == "") {
-				processInputDetails();
-			}
-			return inputString;
-		}
-		return updatedInputString;
-	}
-
 	@Override
 	public String toString() {
 		return "InputDetails [inputFileName=" + inputFileName + ", outputFileName=" + outputFileName
@@ -140,4 +196,5 @@ public class InputDetails {
 				+ ", inputString=" + inputString + ", updatedInputString=" + updatedInputString + ", misspledString="
 				+ misspledString + ", keywordsString=" + keywordsString + "]";
 	}
+
 }

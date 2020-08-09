@@ -1,9 +1,12 @@
 package textdecorators;
 
+import textdecorators.exception.InputDetailsException;
+
 public abstract class AbstractTextDecorator {
-	
-	
-	public abstract void processInputDetails();
-	
-	
+
+	/**
+	 * Method to process the input files.
+	 * @throws InputDetailsException 
+	 */
+	public abstract void processInputDetails() throws InputDetailsException;
 }

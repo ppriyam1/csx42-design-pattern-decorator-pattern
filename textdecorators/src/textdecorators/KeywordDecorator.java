@@ -1,9 +1,15 @@
 package textdecorators;
 
+import textdecorators.exception.ErrorCode;
+import textdecorators.exception.InputDetailsException;
 import textdecorators.util.InputDetails;
 import textdecorators.util.MyLogger;
 import textdecorators.util.MyLogger.DebugLevel;
 
+/**
+ * @author preetipriyam
+ *
+ */
 public class KeywordDecorator extends AbstractTextDecorator {
 
 	private AbstractTextDecorator atd;
@@ -19,9 +25,10 @@ public class KeywordDecorator extends AbstractTextDecorator {
 	}
 
 	@Override
-	public void processInputDetails() {
+	public void processInputDetails() throws InputDetailsException {
 		if (id == null) {
-			LOGGER.writeMessage(PREFIX+"inputString is null"+SUFFIX, DebugLevel.KEYWORD_DECORATOR);
+			String message = ErrorCode.INVALID_INPUT_EMPTY + ": " + PREFIX+"inputString is null"+SUFFIX;
+			LOGGER.writeMessage(message, DebugLevel.EXCEPTION);
 			System.exit(0);
 		}
 		

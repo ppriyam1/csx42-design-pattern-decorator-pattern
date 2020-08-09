@@ -13,9 +13,8 @@ public class MyLogger {
 	};
 
 	private static volatile MyLogger myLoggerInstance;
-
 	private static DebugLevel debugLevel;
-
+	
 	File file = new File("./log.txt");
 
 	private MyLogger() {
@@ -66,8 +65,9 @@ public class MyLogger {
 	public void writeMessage(String message, DebugLevel levelIn) {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-			if (levelIn == debugLevel)
+			if (levelIn == debugLevel) {
 				writer.write(message);
+			}
 			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
